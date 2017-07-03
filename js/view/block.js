@@ -1,16 +1,16 @@
 'use strict';
 
-define(['jquery', 'underscore', 'backbone', 'marionette', 'text!tmpl/mainBlockView.html'],
-function($, _, Bb, Mn, templateHTML) {
+define(['jquery', 'underscore', 'backbone', 'marionette', 'backbone.radio', 'text!tmpl/mainBlockView.html'],
+function($, _, Bb, Mn, Radio, templateHTML) {
     
     // Cat Main View
     var CatMainView = Mn.View.extend({
         template: _.template(templateHTML),
         ui: {
-            txt: ".txtName"  
+            back: ".js_back"  
         },
         events: {
-            "click .btn": "click",
+            "click @ui.back": "gotoCat",
         },
         regions: {
             list: ".js_list_region"
@@ -20,25 +20,23 @@ function($, _, Bb, Mn, templateHTML) {
         },
         onDestroy: function() {
         },
-        click: function(event) {
-            console.log("main - click!");
+        gotoCat: function(event) {
+            var channelAddBlock = Radio.channel("addBlock");
+            var oReturn = channelAddBlock.request("addBlock:goBack", {model: this.model});
         },  
     });
     
     // Cat Item View
     var CatItemView = Mn.View.extend({        
         tagName: "li",
-        template: _.template("<div><span><%=block%><span></div>"),
+        template: _.template("<div><span class='item'><%=block%><span></div>"),
         ui: {
-            del: ".delItem"
-        },
-        triggers: {
-            "click @ui.del": "delete:item"  
+            item: ".item"
         },
         events: {
-            "click @ui.del": "deleteModel"  
+            "click @ui.item": "clickItem"  
         },
-        deleteModel: function() {
+        clickItem: function() {
         },
         onRender: function() {
         },

@@ -1,7 +1,7 @@
 'use strict';
 
-define(['jquery', 'underscore', 'backbone', 'marionette', 'text!tmpl/mainCatView.html'],
-function($, _, Bb, Mn, templateHTML) {
+define(['jquery', 'underscore', 'backbone', 'marionette', 'backbone.radio', 'text!tmpl/mainCatView.html'],
+function($, _, Bb, Mn, Radio, templateHTML) {
     
     // Cat Main View
     var CatMainView = Mn.View.extend({
@@ -35,17 +35,16 @@ function($, _, Bb, Mn, templateHTML) {
     // Cat Item View
     var CatItemView = Mn.View.extend({        
         tagName: "li",
-        template: _.template("<div><span><%=cat%><span></div>"),
+        template: _.template("<div><span class='item'><%=cat%><span></div>"),
         ui: {
-            del: ".delItem"
-        },
-        triggers: {
-            "click @ui.del": "delete:item"  
+            item: ".item"
         },
         events: {
-            "click @ui.del": "deleteModel"  
+            "click @ui.item": "clickItem"  
         },
-        deleteModel: function() {
+        clickItem: function() {
+            var channelAddBlock = Radio.channel("addBlock");
+            var oReturn = channelAddBlock.request("addBlock:goto", {model: this.model});
         },
         onRender: function() {
         },
